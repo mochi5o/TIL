@@ -96,11 +96,11 @@ function usd(aNumber){
     }).format(aNumber/100);
 }
 function totalVolumeCredits(){
-    let volumeCredits = 0;
+    let result = 0;
     for (let perf of invoice.performances) {
-        volumeCredits += volumeCreditsFor(perf);
+        result += volumeCreditsFor(perf);
     }
-    return volumeCredits;
+    return result;
 }
 
 function appleSauce(){
@@ -112,9 +112,9 @@ function appleSauce(){
 }
 
 function totalAmount(){
-    let totalAmount = 0;
+    let result = 0;
     for (let perf of invoice.perfomances){
-        totalAmount += amountFor(perf);
+        result += amountFor(perf);
     }
-    return totalAmount;
+    return result;
 }
