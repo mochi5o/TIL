@@ -49,8 +49,7 @@ function statement (invoice, plays) {
                             }).format;
 
     for (let perf of invoice.perfomances) {
-        //切り出した関数を呼び出す
-        let thisAmount = amountFor(perf, playFor(perf));
+        let thisAmount = amountFor(perf);
         //ボリューム特典のポイントを加算する
         volumeCredits += Math.max(perf.audience - 30, 0);
         // 喜劇の時は10人につきさらにポイントを追加
@@ -65,10 +64,11 @@ function statement (invoice, plays) {
     return result;
 }
 
-function amountFor(aPerformance, play){
+// 関数amountforは一度代入されるだけで更新されないので、呼び出し元で変数のインライン化を行う
+function amountFor(aPerformance){
     // 一回の演目に対する料金を計算している箇所→関数の抽出
     let result = 0;
-    switch (play.type) {
+    switch (playFor(aPerformance).type) {
     case "tragedy":
         result = 40000;
         if (aPerformance.audience > 30) {
@@ -83,7 +83,7 @@ function amountFor(aPerformance, play){
         result += 300 * aPerformance.audience;
         break;
     default:
-        throw new Error(`unknown type: ${play.type}`);
+        throw new Error(`unknown type: ${playFor(aPerformance).type}`);
     }
     return result;
 }
