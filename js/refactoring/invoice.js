@@ -42,12 +42,12 @@ function statement (invoice, plays) {
     let result = `Statement for ${invoice.customer}\n`;
 
     for (let perf of invoice.perfomances) {
-        volumeCredits += volumeCreditsFor(perf);
         // 注文の内訳を出力
-        result += ` ${playFor(perf).name}: ${format(amountFor(pref)/100)} (${perf.audience} seats)\n`;
+        result += ` ${playFor(perf).name}: ${usd(amountFor(pref))} (${perf.audience} seats)\n`;
         totalAmount += amountFor(perf);
     }
-    result += `Amount owed is ${format(totalAmount/100)}\n`
+
+    result += `Amount owed is ${usd(totalAmount)}\n`
     result += `You earned ${volumeCredits} credeits\n`;
     console.log(result);
     return result;
@@ -89,11 +89,17 @@ function volumeCreditsFor(pref){
     return volumeCredits;
 }
 
-function format(aNumber){
+function usd(aNumber){
     return new Intl.NumberFormat('en-US',
     {
         style: 'currency',
         currency: 'USD',
         minimumFractionDigits: 2
-    }).format(aNumber);
+    }).format(aNumber/100);
+}
+function totalVolumeCredits(){
+    let volumeCredits = 0;
+    for (let perf of invoice.performances) {
+        volumeCredits += volumeCreditsFor(perf);
+    }
 }
