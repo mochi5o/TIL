@@ -41,13 +41,6 @@ function statement (invoice, plays) {
     let volumeCredits = 0;
     let result = `Statement for ${invoice.customer}\n`;
 
-    const format = new Intl.NumberFormat('en-US',
-                            {
-                                style: 'currency',
-                                currency: 'USD',
-                                minimumFractionDigits: 2
-                            }).format;
-
     for (let perf of invoice.perfomances) {
         volumeCredits += volumeCreditsFor(perf);
         // 注文の内訳を出力
@@ -94,4 +87,13 @@ function volumeCreditsFor(pref){
     volumeCredits += Math.max(perf.audience - 30, 0);
     if ('comedy' === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5);
     return volumeCredits;
+}
+
+function format(aNumber){
+    return new Intl.NumberFormat('en-US',
+    {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2
+    }).format(aNumber);
 }
