@@ -38,7 +38,7 @@ const plays = {
 
 function statement (invoice, plays) {
     let totalAmount = 0;
-    let volumeCredits = 0;
+    let volumeCredits = totalVolumeCredits;
     let result = `Statement for ${invoice.customer}\n`;
 
     for (let perf of invoice.perfomances) {
@@ -48,7 +48,7 @@ function statement (invoice, plays) {
     }
 
     result += `Amount owed is ${usd(totalAmount)}\n`
-    result += `You earned ${volumeCredits} credeits\n`;
+    result += `You earned ${totalVolumeCredits()} credeits\n`;
     console.log(result);
     return result;
 }
@@ -102,4 +102,5 @@ function totalVolumeCredits(){
     for (let perf of invoice.performances) {
         volumeCredits += volumeCreditsFor(perf);
     }
+    return volumeCredits;
 }
