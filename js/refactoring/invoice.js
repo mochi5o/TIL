@@ -50,25 +50,8 @@ function statement (invoice, plays) {
 
     for (let perf of invoice.perfomances[0]) {
         const play = plays[perf.playID];
-        let thisAmount = 0;
-
-        switch (play.type) {
-        case "tragedy":
-            thisAmount = 40000;
-            if (perf.audience > 30) {
-                thisAmount += 1000 * (perf.audience - 30);
-            }
-            break;
-        case "comedy":
-            thisAmount =  30000;
-            if (perf.audience > 20) {
-                thisAmount += 10000 + 500 * (perf.audience - 20);
-            }
-            thisAmount += 300 * perf.audience;
-            break;
-        default:
-            throw new Error(`unknown type: ${play.type}`);
-        }
+        //切り出した関数を呼び出す
+        let thisAmount = amountFor(perf, play);
         //ボリューム特典のポイントを加算する
         volumeCredits += Math.max(perf.audience - 30, 0);
         // 喜劇の時は10人につきさらにポイントを追加
@@ -79,5 +62,29 @@ function statement (invoice, plays) {
     }
     result += `Amount owed is ${format(totalAmount/100)}\n`
     result += `You earned ${volumeCredits} credeits\n`;
+    console.log(result);
     return result;
+}
+
+function amountFor(perf, play){
+    // 一回の演目に対する料金を計算している箇所→関数の抽出
+    let thisAmount = 0;
+    switch (play.type) {
+    case "tragedy":
+        thisAmount = 40000;
+        if (perf.audience > 30) {
+            thisAmount += 1000 * (perf.audience - 30);
+        }
+        break;
+    case "comedy":
+        thisAmount =  30000;
+        if (perf.audience > 20) {
+            thisAmount += 10000 + 500 * (perf.audience - 20);
+        }
+        thisAmount += 300 * perf.audience;
+        break;
+    default:
+        throw new Error(`unknown type: ${play.type}`);
+    }
+    return thisAmount;
 }
