@@ -43,17 +43,13 @@ function statement (invoice, plays) {
         // 注文の内訳を出力
         result += ` ${playFor(perf).name}: ${usd(amountFor(pref))} (${perf.audience} seats)\n`;
     }
-    let totalAmount = appleSauce();
-
     result += `Amount owed is ${usd(totalAmount())}\n`
     result += `You earned ${totalVolumeCredits()} credeits\n`;
     console.log(result);
     return result;
 }
 
-// 関数amountforは一度代入されるだけで更新されないので、呼び出し元で変数のインライン化を行う
 function amountFor(aPerformance){
-    // 一回の演目に対する料金を計算している箇所→関数の抽出
     let result = 0;
     switch (playFor(aPerformance).type) {
     case "tragedy":
@@ -75,16 +71,15 @@ function amountFor(aPerformance){
     return result;
 }
 
-// メインの関数からplayという変数を削除して関数に切り出した
-function playFor(invoice, plays){
+function playFor(aPerformance){
     return plays[aPerformance.playID];
 }
 
-function volumeCreditsFor(pref){
-    let volumeCredits = 0;
-    volumeCredits += Math.max(perf.audience - 30, 0);
-    if ('comedy' === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5);
-    return volumeCredits;
+function volumeCreditsFor(aPerformance){
+    let result = 0;
+    result += Math.max(aPerformance.audience - 30, 0);
+    if ('comedy' === playFor(aPerformance).type) result += Math.floor(aPerformance.audience / 5);
+    return result;
 }
 
 function usd(aNumber){
