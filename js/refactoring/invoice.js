@@ -1,3 +1,4 @@
+alert('ok');
 const invoice = [
     {
         "customer": "BigCo",
@@ -41,13 +42,13 @@ function statement (invoice, plays) {
     let result = `Statement for ${invoice.customer}\n`;
 
     const format = new Intl.NumberFormat('en-US',
-    {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2
-    }).format;
+                            {
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 2
+                            }).format;
 
-    for (let perf of invoice.perfomances) {
+    for (let perf of invoice.perfomances[0]) {
         const play = plays[perf.playID];
         let thisAmount = 0;
 
@@ -61,7 +62,7 @@ function statement (invoice, plays) {
         case "comedy":
             thisAmount =  30000;
             if (perf.audience > 20) {
-                thisAmount += 1000 + 500 * (perf.audience - 20);
+                thisAmount += 10000 + 500 * (perf.audience - 20);
             }
             thisAmount += 300 * perf.audience;
             break;
@@ -78,6 +79,5 @@ function statement (invoice, plays) {
     }
     result += `Amount owed is ${format(totalAmount/100)}\n`
     result += `You earned ${volumeCredits} credeits\n`;
-    console.log (result);
     return result;
 }
