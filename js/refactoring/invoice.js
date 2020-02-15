@@ -49,7 +49,8 @@ function statement (invoice, plays) {
                             }).format;
 
     for (let perf of invoice.perfomances[0]) {
-        const play = plays[perf.playID];
+        // 問い合わせによる一次変数の置き換えを行った
+        const play = playFor(perf);
         //切り出した関数を呼び出す
         let thisAmount = amountFor(perf, play);
         //ボリューム特典のポイントを加算する
@@ -66,25 +67,30 @@ function statement (invoice, plays) {
     return result;
 }
 
-function amountFor(perf, play){
+function amountFor(aPerformance, play){
     // 一回の演目に対する料金を計算している箇所→関数の抽出
-    let thisAmount = 0;
+    let result = 0;
     switch (play.type) {
     case "tragedy":
-        thisAmount = 40000;
-        if (perf.audience > 30) {
-            thisAmount += 1000 * (perf.audience - 30);
+        result = 40000;
+        if (aPerformance.audience > 30) {
+            result += 1000 * (aPerformance.audience - 30);
         }
         break;
     case "comedy":
-        thisAmount =  30000;
-        if (perf.audience > 20) {
-            thisAmount += 10000 + 500 * (perf.audience - 20);
+        result =  30000;
+        if (aPerformance.audience > 20) {
+            result += 10000 + 500 * (aPerformance.audience - 20);
         }
-        thisAmount += 300 * perf.audience;
+        result += 300 * aPerformance.audience;
         break;
     default:
         throw new Error(`unknown type: ${play.type}`);
     }
-    return thisAmount;
+    return result;
+}
+
+// メインの関数からplayという変数を削除して関数に切り出した
+function playFor(invoice, plays){
+    return plays[aPerformance.playID];
 }
