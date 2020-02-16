@@ -37,21 +37,13 @@ const plays = {
 };
 console.log(plays.hamlet.name);
 
-function statement (invoice, plays) {
-    const statementData = {};
-    statementData.customer = invoice.customer;
-    statementData.performances = invoice.performances.map(enrichPerformance);
-    statementData.totalAmount = totalAmount(statementData);
-    statementData.totalVolumeCredits = totalVolumeCredits(statementData);
-    return renderPlainText(statementData, plays);
-
-    function totalAmount(data){
-        return data.performances.reduce((total, p) => total + p.volumeCredits, 0);
-    }
-
-    function totalVolumeCredits(data) {
-        return data.performances.reduce((total, p) => p.volumeCredits, 0);
-    }
+export default function createStatementData(invoice, plays){
+    const result = {};
+    result.customer = invoice.customer;
+    result.performances = invoice.performances.map(enrichPerformance);
+    result.totalAmount = totalAmount(statementData);
+    result.totalVolumeCredits = totalVolumeCredits(statementData);
+    return result;
 
     function enrichPerformance(aPerformance) {
         const result = Object.assign({}, aPerformance);
@@ -93,33 +85,12 @@ function statement (invoice, plays) {
         if ('comedy' === aPerformance.play.type) result += Math.floor(aPerformance.audience / 5);
         return result;
     }
-}
 
-function renderPlainText(data, invoice, plays){
-    let result = `Statement for ${data.customer}\n`;
-    for (let perf of data.performances) {
-        result += ` ${perf.play.name}: ${usd(perf.amount)} (${perf.audience} seats)\n`;
-    }
-    result += `Amount owed is ${usd(data.totalAmount)}\n`
-    result += `You earned ${data.totalVolumeCredits} credeits\n`;
-    console.log(result);
-    return result;
-
-    function usd(aNumber){
-        return new Intl.NumberFormat('en-US',
-        {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 2
-        }).format(aNumber/100);
+    function totalAmount(data){
+        return data.performances.reduce((total, p) => total + p.amount, 0);
     }
 
-}
-
-function appleSauce(){
-    let totalAmount = 0;
-    for (let perf of invoice.performances){
-        totalAmount += perf.amount;
+    function totalVolumeCredits(data) {
+        return data.performances.reduce((total, p) => p.volumeCredits, 0);
     }
-    return totalAmount;
 }
