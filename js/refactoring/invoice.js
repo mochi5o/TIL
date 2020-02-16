@@ -46,20 +46,11 @@ function statement (invoice, plays) {
     return renderPlainText(statementData, plays);
 
     function totalAmount(data){
-        let result = 0;
-        for (let perf of data.performances){
-            result += perf.amount;
-        }
-        return result;
+        return data.performances.reduce((total, p) => total + p.volumeCredits, 0);
     }
 
-
-    function totalVolumeCredits(data){
-        let result = 0;
-        for (let perf of data.performances) {
-            result += perf.volumeCredits;
-        }
-        return result;
+    function totalVolumeCredits(data) {
+        return data.performances.reduce((total, p) => p.volumeCredits, 0);
     }
 
     function enrichPerformance(aPerformance) {
@@ -105,7 +96,7 @@ function statement (invoice, plays) {
 }
 
 function renderPlainText(data, invoice, plays){
-    let result = `Statement for ${data}\n`;
+    let result = `Statement for ${data.customer}\n`;
     for (let perf of data.performances) {
         result += ` ${perf.play.name}: ${usd(perf.amount)} (${perf.audience} seats)\n`;
     }
@@ -113,9 +104,6 @@ function renderPlainText(data, invoice, plays){
     result += `You earned ${data.totalVolumeCredits} credeits\n`;
     console.log(result);
     return result;
-
-
-
 
     function usd(aNumber){
         return new Intl.NumberFormat('en-US',
@@ -125,12 +113,6 @@ function renderPlainText(data, invoice, plays){
             minimumFractionDigits: 2
         }).format(aNumber/100);
     }
-
-
-
-
-
-
 
 }
 
