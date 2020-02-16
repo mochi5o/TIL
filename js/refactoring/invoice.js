@@ -37,10 +37,13 @@ const plays = {
 };
 
 function statement (invoice, plays) {
+    return renderPlainText(invoice, plays);
+}
+
+function renderPlainText(invoice, plays){
     let result = `Statement for ${invoice.customer}\n`;
 
     for (let perf of invoice.perfomances) {
-        // 注文の内訳を出力
         result += ` ${playFor(perf).name}: ${usd(amountFor(pref))} (${perf.audience} seats)\n`;
     }
     result += `Amount owed is ${usd(totalAmount())}\n`
