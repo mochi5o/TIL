@@ -45,12 +45,16 @@ export default function createStatementData(invoice, plays){
     result.totalVolumeCredits = totalVolumeCredits(statementData);
     return result;
 
+    function amountFor(aPerformance){
+        return new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount;
+    }
+
     function enrichPerformance(aPerformance) {
         const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
         const result = Object.assign({}, aPerformance);
         result.play = calculator.play;
-        result.amount = amountFor(result);
-        result.volumeCredits = volumeCreditsFor(result);
+        result.amount = calculator.amountFor;
+        result.volumeCredits = calculator.volumeCreditsFor;
         return result;
     }
 
@@ -98,6 +102,13 @@ class PerformanceCalculator {
         default:
             throw new Error(`unknown type: ${this.play.type}`);
         }
+        return result;
+    }
+
+    get volumeCredits(){
+        let result = 0;
+        result += Math.max(this.performance.audience - 30, 0);
+        if ('comedy' === this.play.type) result += Math.floor(this.performance.audience / 5);
         return result;
     }
 }
