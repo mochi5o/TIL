@@ -10,7 +10,7 @@
 <body>
     <p>フォームからドメイン送信したら、画面遷移してルートディレクトリのテキストファイルの中身をリスト表示する</p>
     <form action="post.php" method="post">
-        <input type="text" name="domain" id="">
+        <input type="text" name="domain">
         <input type="hidden" name="action" value="domain">
         <input type="submit" value="送信">
     </form>

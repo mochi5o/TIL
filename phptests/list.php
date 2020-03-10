@@ -1,6 +1,7 @@
 <?php
 session_start();
 $params = [];
+var_dump($_POST['id']);
 $_SESSION['id'] = $_POST['id'];
 $content = $_POST['content'];
 var_dump($content);
