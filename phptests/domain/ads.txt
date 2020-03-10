@@ -1,0 +1,26 @@
+adtdp.com, 2003, DIRECT
+as.amanad.adtdp.com, 2003, DIRECT
+google.com, pub-1350297223867787, DIRECT
+google.com, pub-9369398376690864, DIRECT
+google.com, pub-4094152962392845, RESELLER
+google.com, pub-5897179876377792, RESELLER, f08c47fec0942fa0
+gmossp-sp.jp, 2000313, DIRECT
+gmossp.jp, 2000505, RESELLER
+adingo.jp, 16792, DIRECT
+aps.amazon.com, 3499, DIRECT
+openx.com, 537136744, DIRECT, 6a698e2ec38604c6
+openx.com, 537120124, DIRECT, 6a698e2ec38604c6
+openx.com, 537119985, RESELLER
+openx.com, 74938, RESELLER, 6a698e2ec38604c6
+openx.com, 140525, RESELLER, 6a698e2ec38604c6
+openx.com, 69353, RESELLER
+openx.com, 113534, RESELLER
+openx.com, 113178, RESELLER
+openx.com, 539294045, RESELLER
+impact-ad.jp, 216, DIRECT
+impact-ad.jp, 2699, DIRECT
+impact-ad.jp, 1064, RESELLER
+impact-ad.jp, 1635, RESELLER
+impact-ad.jp, 1636, RESELLER
+impact-ad.jp, 1680, RESELLER
+impact-ad.jp, 1718, RESELLER
