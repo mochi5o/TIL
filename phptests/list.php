@@ -26,18 +26,17 @@ $_SESSION['contents'] = $contents;
         <?php foreach ($contents as $id => $content) : ?>
         <tr>
             <td>
-                <input type="radio" name="content" value="<?php echo $content;?>" />
             <?php echo $content;?>
             </td>
             <td>
                 <form action="form.php" method="post">
-                    <input type="hidden" name="id">
+                    <input type="hidden" name="id" value="<?php echo $id;?>">
                     <button type="submit">edit</button>
                 </form>
             </td>
             <td>
                 <form action="delete.php" method="post">
-                    <input type="hidden" name="id">
+                    <input type="hidden" name="id" value="<?php echo $id;?>">
                     <button type="submit" id="confirm">delete</button>
                 </form>
             </td>
