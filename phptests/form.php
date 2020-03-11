@@ -1,20 +1,15 @@
 <?php
 session_start();
 $params = [];
-// var_dump($_POST['id']);
 $id = (int)$_POST['id'];
 $_SESSION['id'] = $id;
-// $id = (int)$_POST['id'];
 $content = $_SESSION['contents'][$id];
-// var_dump($content);
-// var_dump($_SESSION['contents']);
 $keys = ['ads', 'pubid', 'type', 'user'];
 $params = explode(",", $content, 4);
 if (count($params) === 3){
     $params[] = "";
 }
 $params = array_combine($keys, $params);
-// var_dump($params);
 ?>
 
 <!doctype html>
