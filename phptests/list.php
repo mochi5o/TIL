@@ -1,36 +1,53 @@
 <?php
 session_start();
-$params = [];
-var_dump($_POST['id']);
-$_SESSION['id'] = $_POST['id'];
-$content = $_POST['content'];
-var_dump($content);
-$keys = ['ads', 'pubid', 'type', 'user'];
-$params = explode(",", $content, 4);
-if (count($params) === 3){
-    $params[] = "";
+$action = $_POST['action'];
+$domainRoot = $_POST['domain'];
+$contents = [];
+if ($action === 'domain'){
+    $file = './' . $domainRoot . '/ads.txt';
+    $contents = str_replace(array("\r\n", "\r", "\n", " "), '',file($file));
+} else {
+// 例外処理
 }
-$params = array_combine($keys, $params);
-var_dump($params);
+$_SESSION['contents'] = $contents;
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
 </head>
 <body>
-<form action="complete.php" method="post">
-    <input type="text" name="ads" value="<?php echo $params['ads'] ?>">
-    <input type="text" name="pubid" value="<?php echo $params['pubid'] ?>">
-    <input type="text" name="type" value="<?php echo $params['type'] ?>">
-    <input type="text" name="user" value="<?php echo $params['user'] ?>">
-    <input type="submit" value="登録">
-</form>
-
+    <p>ここにリスト表示</p>
+    <table>
+        <?php foreach ($contents as $id => $content) : ?>
+        <tr>
+            <td>
+                <input type="radio" name="content" value="<?php echo $content;?>" />
+            <?php echo $content;?>
+            </td>
+            <td>
+                <form action="form.php" method="post">
+                    <input type="hidden" name="id">
+                    <button type="submit">edit</button>
+                </form>
+            </td>
+            <td>
+                <form action="delete.php" method="post">
+                    <input type="hidden" name="id">
+                    <button type="submit" id="confirm">delete</button>
+                </form>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+    <script>
+        document.getElementById('confirm').onclick = function(){
+            confirm('削除していいですか');
+        }
+    </script>
 </body>
 </html>
