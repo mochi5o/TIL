@@ -6,8 +6,12 @@ list_recursive ()
     echo "$filepath"
 
     if [ -d "$filepath" ]; then
-        #
-        #
+        local fname 
+        for fbname in $(ls "$filepath")
+        do
+            # ディレクトリ内のファイルを表示
+            echo "${filepath}/${fname}"
+        done
     fi
 }
 
