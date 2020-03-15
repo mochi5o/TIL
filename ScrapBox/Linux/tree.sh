@@ -3,17 +3,17 @@
 list_recursive ()
 {
     local filepath=$1
-    echo "$filepath"
+    local indent=$2
+
+    echo "${indent}${filepath##*/}"
 
     if [ -d "$filepath" ]; then
         local fname
         for fname in $(ls "$filepath")
         do
-            list_recursive "${filepath}/${fname}"
-            echo "${filepath}/${fname}"
+            list_recursive "${filepath}/${fname}" "    $indent"
         done
     fi
 }
 
-
-list_recrusive "$1"
+list_recursive "$1" ""
