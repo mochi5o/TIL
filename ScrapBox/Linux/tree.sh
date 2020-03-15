@@ -9,6 +9,7 @@ list_recursive ()
 
     if [ -d "$filepath" ]; then
         local fname
+        IFS=$'\n'
         for fname in $(ls "$filepath")
         do
             list_recursive "${filepath}/${fname}" "    $indent"
