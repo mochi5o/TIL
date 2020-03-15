@@ -6,13 +6,14 @@ list_recursive ()
     echo "$filepath"
 
     if [ -d "$filepath" ]; then
-        local fname 
-        for fbname in $(ls "$filepath")
+        local fname
+        for fname in $(ls "$filepath")
         do
-            # ディレクトリ内のファイルを表示
+            list_recursive "${filepath}/${fname}"
             echo "${filepath}/${fname}"
         done
     fi
 }
+
 
 list_recrusive "$1"
