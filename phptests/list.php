@@ -3,17 +3,12 @@ session_start();
 $action = $_POST['action'];
 $domainRoot = $_POST['domain'];
 $contents = [];
-$text = 'あ
-い
 
-
-う
-
-え
-お';
-echo preg_replace('/^\n/', '', $text);
 if ($action === 'domain'){
-    $file = file_get_contents('http://mochi5o.work/ads.txt');
+    $file = file_get_contents('https://mochi5o.work/ads.txt');
+    if (is_null($file)){
+        $file = file_get_contents('http://mochi5o.work/ads.txt');
+    }
     $file = str_replace(' ', '', $file);
     $file = preg_replace(array('/^[\r\n]+/m', '/\Z[\r\n]+/'), '', $file);
     var_dump($file);
