@@ -3,9 +3,22 @@ session_start();
 $action = $_POST['action'];
 $domainRoot = $_POST['domain'];
 $contents = [];
+$text = 'あ
+い
+
+
+う
+
+え
+お';
+echo preg_replace('/^\n/', '', $text);
 if ($action === 'domain'){
-    $file = './' . $domainRoot . '/ads.txt';
-    $contents = str_replace(array("\r\n", "\r", "\n", " "), '',file($file));
+    $file = file_get_contents('http://mochi5o.work/ads.txt');
+    $file = str_replace(' ', '', $file);
+    $file = preg_replace(array('/^[\r\n]+/m', '/\Z[\r\n]+/'), '', $file);
+    var_dump($file);
+    $contents = explode ("\n",  $file);
+    var_dump($contents);
 } else {
 // 例外処理
 }
