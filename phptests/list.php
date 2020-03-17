@@ -5,12 +5,16 @@ $domainRoot = $_POST['domain'];
 $contents = [];
 
 if ($action === 'domain'){
-    $file = file_get_contents('https://mochi5o.work/ads.txt');
-    if (is_null($file)){
+    $file = file_get_contents('https://www.mochi5o.work/ads.txt');
+    if(!file_exists($file)){
+        var_dump('notexists!');
+    }
+    if (strlen($file) === 0){
+        var_dump('isnull');
         $file = file_get_contents('http://mochi5o.work/ads.txt');
     }
     $file = str_replace(' ', '', $file);
-    $file = preg_replace(array('/^[\r\n]+/m', '/\Z[\r\n]+/'), '', $file);
+    $file = preg_replace(array('/^[\r\n]+/m', '/[\r\n]+\Z/'), '', $file);
     var_dump($file);
     $contents = explode ("\n",  $file);
     var_dump($contents);
