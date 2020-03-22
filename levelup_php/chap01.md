@@ -114,3 +114,22 @@ fruits(...$array);
   - [ジェネレータの構文](https://www.php.net/manual/ja/language.generators.syntax.php#control-structures.yield)
   - yieldが含まれていればどんな関数でもジェネレータ関数
 - [トレイト](https://www.php.net/manual/ja/language.oop5.traits.php)
+
+## curlとGuzzle
+
+- [curl_init](https://www.php.net/manual/ja/function.curl-init.php)
+- curlコマンドはhttpリクエストを実行できるコマンド
+  - curl_init()で初期化してお決まりの書き方で接続、Web上の情報（resource）を取得できる
+  - CURLXXXXという定数がたくさんある
+  - curl_close()で閉じて終了
+- Guzzle
+  > GuzzleはHTTPクライアントのパッケージで、一言で説明すると「高性能なcurl関数のラッパー」です。みなさんはAPI通信やスクレイピングを行う時に、どのようにして外部サーバからHTTPで通信する方法があるでしょうか。
+    
+    ということらしい。
+
+## 外部リソースと異常系
+
+- リソース型の変数は、ファイル、ネットワーク、データベースなど外部環境とのやりとりを伴うので常に失敗のリスクがある
+- リソース型を扱うときは、常に異常系を正しく検出できるかどうかを意識すること
+  - 正常系の処理を書き終えても進捗は50%程度と考える（！）
+- curl, Guzzle, ftp_ssl_connect(), などいろんなアクセス方法がある

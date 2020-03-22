@@ -2,12 +2,12 @@
 trait transport1 {
     // static 関数
     static function test() {
-        echo "test!";
+        echo "test!" .PHP_EOL;
     }
 
     // インスタンス関数
     function canRide() {
-        echo "Can Ride!";
+        echo "Can Ride!" .PHP_EOL;
     }
 }
 trait transport2 {}
