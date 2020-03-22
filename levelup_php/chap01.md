@@ -142,3 +142,67 @@ fruits(...$array);
 - splFileObjectによるファイルの読み書き
   - fopen以外の読み書き方法
   - splFileObjectを使うとオブジェクト指向でファイルの読み書きができる
+
+## nullの話
+
+- empty()は未定義とNULLに加えて次の値もemptyと判定される
+```php
+$a = "";
+$a = 0;
+$a = 0.0;
+$a = "0";
+$a = FALSE;
+// 上記は全てempty($a) = trueになる
+```
+### NULL合体演算子
+  - 変数が未定義またはNULLであれば初期値を与えるための演算子
+  - PHP7だけで使える
+```php
+// NULL合体演算子（??を使う） issetぽい判定を行う
+$username = $_GET['user'] ?? 'nobody';
+echo $username.PHP_EOL;
+
+```
+
+- 参考：$bがなければ$cを代入する柔軟な書き方
+```php
+/*
+ * Perl５と未定義変数
+ */
+
+#!/usr/bin/perl
+my $c = 1;
+my $a = $b || $c;
+warn $a;
+```
+
+### エルビス演算子
+
+```php
+/*
+ * エルビス演算子
+ */
+
+// 普通にif
+$name = '';
+if ($name) {
+    $username = $name;
+} else {
+    $username = '名前が空です';
+}
+
+// 三項演算子
+$username = $name ? $name : '名前が空です';
+
+// エルビス演算子 if($name) と同様の判定を行、$nameまたはデフォルト値を返却する
+$username = $name ?: '名前が空です';
+echo $username.PHP_EOL;
+```
+- 判定基準はif構文に相当することに注意！
+  - !empty()ではない！！！
+- `?:` がリーゼントと目に見えることから
+  - [参考リンク](https://stackoverflow.com/questions/1993409/operator-the-elvis-operator-in-php)
+  
+- [コールバック型](https://www.php.net/manual/ja/language.types.callable.php)
+  - コールバック関数を引数で必要とするための擬似的な型
+> PHP 関数はその名前を単に文字列として渡します。 どのようなビルトインまたはユーザー定義の関数も渡すことができます。 ただし、 array(), echo, empty(), eval(), exit(), isset(), list(), print あるいは unset() といった言語構造はコールバックとしては使えないことに注意しましょう。
