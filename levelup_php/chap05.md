@@ -116,3 +116,50 @@ $ php composer.phar install --no-dev
 $ php composer.phar self-update
 ```
 
+## 第8章
+
+### エラーと例外
+
+- エラー例外（\Error）・・・想定外であることが多い
+  - Error：エラー系の規定クラス
+  - ParseError：eval()を呼んだときなどPHPコードのパースに失敗した
+  - TypeError：一番よく見るやつ
+    - 関数の戻り値が宣言と一致しない
+    - 関数の引数が宣言と一致しない
+    - （strictモードで）PHPの組み込み関数の引数の数を間違えた
+  - AssertionError：アサーションassert()のエラー
+
+```php
+// エラーの捕捉（try~catch）
+try {
+  $result = 5 % 0;
+} catch(\Error $e) {
+  echo get_class($e) . PHP_EOL;
+  echo $e->getMessage() . PHP_EOL;
+}
+```
+
+- ユーザー例外
+  - 基底クラス（\Exeption）を継承して実装する
+
+```php
+final class SampleException extends \Exception{}
+
+try {
+    if (1 !=== 0){
+        throw new SampleException('1 is not 0');
+    }
+} catch(\SampleException $e) {
+    echo $e->getMessage() .PHP_EOL;
+}
+```
+
+- エラーハンドラ
+  - 元々はPHPの言語レベルのエラーはエラーハンドラで制御していた
+  - PHP７以降はエラーが発生するとError例外が飛ぶようになったので、try~catchも主流になってる
+  - [uzullaがブログ](https://uzulla.hateblo.jp/entry/2013/12/20/041619) で言及
+- PHPのデバッグトレース
+  - [公式](https://www.php.net/manual/ja/function.debug-backtrace.php)
+  - [PHPのエラーログ出力](https://www.sodo-shed.com/archives/12197)
+
+ちょいちょいPHP5系の互換性を保つためのやつもあるみたい
