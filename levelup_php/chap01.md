@@ -114,3 +114,95 @@ fruits(...$array);
   - [ジェネレータの構文](https://www.php.net/manual/ja/language.generators.syntax.php#control-structures.yield)
   - yieldが含まれていればどんな関数でもジェネレータ関数
 - [トレイト](https://www.php.net/manual/ja/language.oop5.traits.php)
+
+## curlとGuzzle
+
+- [curl_init](https://www.php.net/manual/ja/function.curl-init.php)
+- curlコマンドはhttpリクエストを実行できるコマンド
+  - curl_init()で初期化してお決まりの書き方で接続、Web上の情報（resource）を取得できる
+  - CURLXXXXという定数がたくさんある
+  - curl_close()で閉じて終了
+- Guzzle
+  > GuzzleはHTTPクライアントのパッケージで、一言で説明すると「高性能なcurl関数のラッパー」です。みなさんはAPI通信やスクレイピングを行う時に、どのようにして外部サーバからHTTPで通信する方法があるでしょうか。
+    
+    ということらしい。
+
+## 外部リソースと異常系
+
+- リソース型の変数は、ファイル、ネットワーク、データベースなど外部環境とのやりとりを伴うので常に失敗のリスクがある
+- リソース型を扱うときは、常に異常系を正しく検出できるかどうかを意識すること
+  - 正常系の処理を書き終えても進捗は50%程度と考える（！）
+- curl, Guzzle, ftp_ssl_connect(), などいろんなアクセス方法がある
+
+
+- fsockopenの接続
+  - TCP/IPによるソケット接続はHTTPのリクエスト送受信をより低いレイヤーで体験できるという意味で有用
+  - 低レイヤーの話なので勉強しないとわからない
+  - HTTPよりも低レイヤーのプロトコルを気軽に扱える感じらしい（？）
+- splFileObjectによるファイルの読み書き
+  - fopen以外の読み書き方法
+  - splFileObjectを使うとオブジェクト指向でファイルの読み書きができる
+
+## nullの話
+
+- empty()は未定義とNULLに加えて次の値もemptyと判定される
+```php
+$a = "";
+$a = 0;
+$a = 0.0;
+$a = "0";
+$a = FALSE;
+// 上記は全てempty($a) = trueになる
+```
+### NULL合体演算子
+  - 変数が未定義またはNULLであれば初期値を与えるための演算子
+  - PHP7だけで使える
+```php
+// NULL合体演算子（??を使う） issetぽい判定を行う
+$username = $_GET['user'] ?? 'nobody';
+echo $username.PHP_EOL;
+
+```
+
+- 参考：$bがなければ$cを代入する柔軟な書き方
+```php
+/*
+ * Perl５と未定義変数
+ */
+
+#!/usr/bin/perl
+my $c = 1;
+my $a = $b || $c;
+warn $a;
+```
+
+### エルビス演算子
+
+```php
+/*
+ * エルビス演算子
+ */
+
+// 普通にif
+$name = '';
+if ($name) {
+    $username = $name;
+} else {
+    $username = '名前が空です';
+}
+
+// 三項演算子
+$username = $name ? $name : '名前が空です';
+
+// エルビス演算子 if($name) と同様の判定を行、$nameまたはデフォルト値を返却する
+$username = $name ?: '名前が空です';
+echo $username.PHP_EOL;
+```
+- 判定基準はif構文に相当することに注意！
+  - !empty()ではない！！！
+- `?:` がリーゼントと目に見えることから
+  - [参考リンク](https://stackoverflow.com/questions/1993409/operator-the-elvis-operator-in-php)
+  
+- [コールバック型](https://www.php.net/manual/ja/language.types.callable.php)
+  - コールバック関数を引数で必要とするための擬似的な型
+> PHP 関数はその名前を単に文字列として渡します。 どのようなビルトインまたはユーザー定義の関数も渡すことができます。 ただし、 array(), echo, empty(), eval(), exit(), isset(), list(), print あるいは unset() といった言語構造はコールバックとしては使えないことに注意しましょう。
