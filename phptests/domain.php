@@ -8,7 +8,8 @@
     <title>indexページ</title>
 </head>
 <body>
-    <p>フォームからドメイン送信したら、画面遷移してルートディレクトリのテキストファイルの中身をリスト表示する</p>
+    <p>反映されてる！フォームからドメイン送信したら、画面遷移してルートディレクトリのテキストファイルの中身をリスト表示する</p>
+
     <form action="list.php" method="post">
         <input type="text" name="domain">
         <input type="hidden" name="action" value="domain">
