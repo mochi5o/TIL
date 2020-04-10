@@ -105,6 +105,7 @@ testdomain.		33	IN	SOA	dns01.example.com. postmaster.testdomain. 1581662901 3600
 ```
 
 - 一定時間後（キャッシュきいてる？）
+  - この後さらに時間が経つとNSレコードも表示された
 
 ```txt
 $ dig test.testdomain
@@ -171,4 +172,38 @@ $ dig info@testdomain
 ;; SERVER: XXXXXX:c8ff:fe65:3bd0#53(XXXXXX:c8ff:fe65:3bd0)
 ;; WHEN: Fri Apr 10 23:29:18 JST 2020
 ;; MSG SIZE  rcvd: 112
+```
+
+- mxレコードはコマンドが違った
+
+```txt
+dig testdomain mx
+
+; <<>> DiG 9.10.6 <<>> testdomain mx
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 19906
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;testdomain.			IN	MX
+
+;; ANSWER SECTION:
+testdomain.		3600	IN	MX	50 mx01.example.com.
+
+;; AUTHORITY SECTION:
+testdomain.		3600	IN	NS	dns01.example.com.
+testdomain.		3600	IN	NS	dns02.example.com.
+
+;; ADDITIONAL SECTION:
+dns02.example.com. 3017	IN	A	XXX.XXX.XX.XX
+dns01.example.com. 1139	IN	A	YYY.YYY.YY.YY
+
+;; Query time: 419 msec
+;; SERVER: XXXXXXXX:fe65:3bd0#53(XXXXXXXX:fe65:3bd0#53)
+;; WHEN: Sat Apr 11 00:08:21 JST 2020
+;; MSG SIZE  rcvd: 161
+
 ```
