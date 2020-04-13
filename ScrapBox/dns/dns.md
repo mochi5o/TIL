@@ -144,7 +144,7 @@ $ dig info@testdomain
 ;info\@testdomain.		IN	A
 
 ;; AUTHORITY SECTION:
-work.			600	IN	SOA	dns1.nic.work. hostmaster.nominet.org.uk. 2100908821 900 300 2419200 3600
+info.testdomain.			600	IN	SOA	dns1.nic.work. hostmaster.nominet.org.uk. 2100908821 900 300 2419200 3600
 
 ;; Query time: 130 msec
 ;; SERVER: XXXXXX:c8ff:fe65:3bd0#53(XXXXXX:c8ff:fe65:3bd0)
