@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f1259fa2-4202-44fe-a41d-a55b384b85a5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/levelup_php/shakyou/ch4-filter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/levelup_php/shakyou/ch4-return.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/levelup_php/shakyou/ch4-type.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/levelup_php/shakyou/ch4-typeerror.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/levelup_php/chap02-3.md" beforeDir="false" afterPath="$PROJECT_DIR$/levelup_php/chap02-3.md" afterDir="false" />
-    </list>
+    <list default="true" id="f1259fa2-4202-44fe-a41d-a55b384b85a5" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +46,7 @@
       <workItem from="1583833090521" duration="8657000" />
       <workItem from="1584857492848" duration="12298000" />
       <workItem from="1585064654764" duration="3897000" />
+      <workItem from="1587604693231" duration="1000" />
     </task>
     <servers />
   </component>
