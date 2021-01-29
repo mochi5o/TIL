@@ -17,6 +17,6 @@ func main() {
 	}
 }
 
-func myFunc() (int) {
+func myFunc() int {
 	return 0
 }
