@@ -257,3 +257,8 @@ array1 := [...]int {1, 2, 3, 4}
 slice0 := []int {1, 2, 3}
 slice1 := make([]int, 3, 5)
 ```
+
+[スライスの動作はこれがわかりやすい](https://qiita.com/seihmd/items/d9bc98a4f4f606ecaef7)
+
+- チャネルについて
+  - 調べてたら、[これやるといいよ](https://gobyexample.com/)ってのがまた出てきた
