@@ -11,6 +11,8 @@ go version go1.14.2 darwin/amd64
 ~ ❯❯❯
 ```
 
+[Goの基本](./Golang.md)
+
 ### 以下、雑なメモ
 
 - セミコロン
@@ -78,3 +80,22 @@ func myFunc() int {
 
 [一級関数](https://ja.wikipedia.org/wiki/%E7%AC%AC%E4%B8%80%E7%B4%9A%E9%96%A2%E6%95%B0)
 >関数を第一級オブジェクトとして扱うことのできるプログラミング言語の性質、またはそのような関数のことである。その場合その関数は、型のある言語では function type（en:Function type）などと呼ばれる型を持ち、またその値は関数オブジェクトなどになる。具体的にはプログラムの実行時に生成され、データ構造に含めることができ、他の関数の引数として渡したり、戻り値として返したりすることのできる関数をいう
+
+- typeキーワードとGoの型
+
+最初に書いた型以外の基本型（めちゃこまかい）
+
+```txt
+int  int8  int16  int32  int64
+uint uint8 uint16 uint32 uint64 uintptr
+
+byte // uint8 の別名
+
+rune // int32 の別名
+     // Unicode のコードポイントを表す
+
+float32 float64
+
+complex64 complex128
+```
+
