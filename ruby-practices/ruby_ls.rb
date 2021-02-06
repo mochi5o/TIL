@@ -3,7 +3,10 @@ puts base_dir
 
 puts File.mtime(__FILE__)
 arr = []
-str = Dir.each_child(base_dir)
-str.each do |file|
-  print "#{file} " unless File.fnmatch(".*", file)
+file_list = Dir.entries(base_dir)
+file_list.each do |file|
+  file = "#{file}/" if Dir.exist?("#{base_dir}/#{file}")
+  arr.push file
 end
+
+p arr.sort
