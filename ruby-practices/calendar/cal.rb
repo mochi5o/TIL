@@ -4,12 +4,12 @@ require 'date'
 
 opt = OptionParser.new
 params = {}
-opt.on('-m VAL', '月を指定できます') {|v| params[:month] = v }
-opt.on('-y VAL', '年を指定できます') {|v| params[:year] = v }
+opt.on('-m int', '月を指定できます') {|v| params[:month] = v.to_i }
+opt.on('-y int', '年を指定できます') {|v| params[:year] = v.to_i }
 opt.parse!(ARGV)
 
-month = params[:month].to_i
-year = params[:year].to_i
+month = params[:month].nil? ? Date.today.month : params[:month]
+year = params[:year].nil? ? Date.today.year : params[:year]
 
 start_day = Date.new(year, month, 1).day
 start_wday = Date.new(year, month, 1).wday
