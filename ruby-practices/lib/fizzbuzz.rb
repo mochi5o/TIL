@@ -1,5 +1,5 @@
 def fizz_buzz(n)
-  require 'byebug'; byebug
+  require 'pry'; binding.pry
   if n % 15 == 0
     'Fizz Buzz'
   elsif n % 3 == 0
