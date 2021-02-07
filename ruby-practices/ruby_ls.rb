@@ -2,7 +2,6 @@ require 'optparse'
 require 'etc'
 
 base_dir = Dir.getwd
-puts base_dir
 
 arr = []
 file_list = Dir.entries(base_dir)
@@ -29,24 +28,28 @@ def with_l_opt
 
 end
 
-# arr = ['ruby_pwd', 'test']
-
 month_name = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 permit = ['---', '--x', '-w-', '-wx', 'r--', 'r-x', 'rw-', 'rwx']
+types = {
+      'file' => '-',
+      'directory' => 'd',
+      'characterSpecial' => 'c',
+      'blockSpecial' => 'b',
+      'fifo' => 'f',
+      'link' => 'l',
+      'socket' => 's'
+}
 blocks = 0
 str = ''
 arr.each do |f|
   stat = File.stat(f)
   blocks += stat.blocks
-  m_str = stat.mode.to_s(8)
-  # puts m_str
-  pam_arr = m_str.split(//)
-  mode_arr = pam_arr.last(3)
+  mode_arr = stat.mode.to_s(8).split(//)[-3..]
   mode = ''
   mode_arr.each do |n|
     mode += permit[n.to_i]
   end
-
+  type = types[stat.ftype]
   nlink = stat.nlink
   owner = Etc.getpwuid(stat.uid).name
   gid   = stat.gid
@@ -56,16 +59,8 @@ arr.each do |f|
   day   = mtime.day
   hour  = mtime.hour
   min   = mtime.min
-  str += "#{mode}  #{nlink} #{owner}  #{gid}  #{size} #{month}  #{day} #{hour}:#{min} #{f}\n"
+  str += "#{type}#{mode}  #{nlink} #{owner}  #{gid}  #{size} #{month}  #{day} #{hour}:#{min} #{f}\n"
 end
 
 puts "total #{blocks}"
 puts str
-
-def get_mtime(mtime)
-  time_show =''
-  month = mtime.month
-  hour = mtime.hour
-  min = mtime.min
-  puts hour
-end
