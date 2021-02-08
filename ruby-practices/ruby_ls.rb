@@ -1,6 +1,7 @@
 require 'optparse'
 require 'etc'
 
+# TODO:カレントディレクトリの情報 || 引数で渡したディレクトリ
 base_dir = Dir.getwd
 
 arr = []
@@ -10,18 +11,34 @@ file_list.each do |file|
   arr.push file
 end
 
+# ファイルの順番がととのった
 arr.sort!
 
-def without_a_opt
+def without_a_opt(array)
   puts '-----'
-  arr.select! { |list| !list.start_with?(".") }
-  puts arr
+  array.select! { |list| !list.start_with?(".") }
+  # puts arr
 end
 
 def with_r_opt
   puts '-----'
   arr.reverse!
   puts arr
+end
+
+def without_l_opt
+  elements = arr.length
+  remainder = elements % 3
+
+  if arr.length % 3 == 1
+    arr.push('','')
+  elsif arr.length % 3 == 2
+    arr.push('')
+  end
+
+  elements = arr.length
+  without_l_opt_show = arr.each_slice(elements.div(3)).to_a.transpose
+  p without_l_opt_show
 end
 
 def with_l_opt
@@ -39,11 +56,17 @@ types = {
       'link' => 'l',
       'socket' => 's'
 }
-blocks = 0
+
+total = 0
+arr.each do |f|
+  total += File.stat(f).blocks
+end
+
+
 str = ''
 arr.each do |f|
   stat = File.stat(f)
-  blocks += stat.blocks
+  # blocks += stat.blocks
   mode_arr = stat.mode.to_s(8).split(//)[-3..]
   mode = ''
   mode_arr.each do |n|
@@ -59,8 +82,8 @@ arr.each do |f|
   day   = mtime.day
   hour  = mtime.hour
   min   = mtime.min
-  str += "#{type}#{mode}  #{nlink} #{owner}  #{gid}  #{size} #{month}  #{day} #{hour}:#{min} #{f}\n"
+  str += "#{type}#{mode} #{nlink} #{owner}  #{gid}  #{size} #{month}  #{day} #{hour}:#{min} #{f}\n"
 end
 
-puts "total #{blocks}"
+puts "total #{total}"
 puts str
