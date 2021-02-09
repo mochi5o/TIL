@@ -26,22 +26,27 @@ def with_r_opt
   puts arr
 end
 
-def without_l_opt
-  elements = arr.length
-  remainder = elements % 3
-
-  if arr.length % 3 == 1
-    arr.push('','')
-  elsif arr.length % 3 == 2
-    arr.push('')
-  end
-
-  elements = arr.length
-  without_l_opt_show = arr.each_slice(elements.div(3)).to_a.transpose
-  p without_l_opt_show
+# いいかんじで並べるための処理
+max_length = arr.sort_by(&:length).last.length
+arr.map! do |s|
+  s.ljust(max_length + 2)
 end
 
-def with_l_opt
+remainder = arr.length % 3
+if arr.length % 3 == 1
+  arr.push('','')
+elsif arr.length % 3 == 2
+  arr.push('')
+end
+
+without_l_opt_show = arr.each_slice(arr.length.div(3)).to_a.transpose
+
+without_l_opt_show.each do |a|
+puts a.join('')
+end
+
+
+def with_l_output
 
 end
 
@@ -57,33 +62,33 @@ types = {
       'socket' => 's'
 }
 
-total = 0
-arr.each do |f|
-  total += File.stat(f).blocks
-end
+# total = 0
+# arr.each do |f|
+#   total += File.stat(f).blocks
+# end
 
 
-str = ''
-arr.each do |f|
-  stat = File.stat(f)
-  # blocks += stat.blocks
-  mode_arr = stat.mode.to_s(8).split(//)[-3..]
-  mode = ''
-  mode_arr.each do |n|
-    mode += permit[n.to_i]
-  end
-  type = types[stat.ftype]
-  nlink = stat.nlink
-  owner = Etc.getpwuid(stat.uid).name
-  gid   = stat.gid
-  size  = stat.size
-  mtime = stat.mtime
-  month = month_name[mtime.month- 1]
-  day   = mtime.day
-  hour  = mtime.hour
-  min   = mtime.min
-  str += "#{type}#{mode} #{nlink} #{owner}  #{gid}  #{size} #{month}  #{day} #{hour}:#{min} #{f}\n"
-end
+# str = ''
+# arr.each do |f|
+#   stat = File.stat(f)
+#   # blocks += stat.blocks
+#   mode_arr = stat.mode.to_s(8).split(//)[-3..]
+#   mode = ''
+#   mode_arr.each do |n|
+#     mode += permit[n.to_i]
+#   end
+#   type = types[stat.ftype]
+#   nlink = stat.nlink
+#   owner = Etc.getpwuid(stat.uid).name
+#   gid   = stat.gid
+#   size  = stat.size
+#   mtime = stat.mtime
+#   month = month_name[mtime.month- 1]
+#   day   = mtime.day
+#   hour  = mtime.hour
+#   min   = mtime.min
+#   str += "#{type}#{mode} #{nlink} #{owner}  #{gid}  #{size} #{month}  #{day} #{hour}:#{min} #{f}\n"
+# end
 
-puts "total #{total}"
-puts str
+# puts "total #{total}"
+# puts str
