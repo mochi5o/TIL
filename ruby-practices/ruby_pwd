@@ -1,0 +1,4 @@
+# frozen_string_literal: false
+#! /usr/bin/ruby
+
+puts Dir.getwd
