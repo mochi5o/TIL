@@ -87,12 +87,8 @@ def with_l_output
     owner = Etc.getpwuid(stat.uid).name
     gid   = stat.gid
     size  = stat.size.to_s.rjust(6)
-    mtime = stat.mtime
-    month = month_name[mtime.month- 1]
-    day   = mtime.day.to_s.rjust(2)
-    hour  = mtime.hour.to_s.rjust(2, "0")
-    min   = mtime.min.to_s.rjust(2, "0")
-    str += "#{type}#{mode} #{nlink} #{owner}  #{gid}#{size} #{month} #{day} #{hour}:#{min} #{f}\n"
+    mtime = stat.mtime.strftime("%b %e %H:%M")
+    str += "#{type}#{mode} #{nlink} #{owner}  #{gid}#{size} #{mtime} #{f}\n"
   end
 
   puts "total #{total}"
