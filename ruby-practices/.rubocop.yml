@@ -1,0 +1,10 @@
+inherit_gem:
+  rubocop-fjord:
+    - "config/rubocop.yml"
+AllCops:
+  Exclude:
+    - Gemfile
+    - ruby_cal
+    - test/*
+    - lib/fizzbuzz.rb
+  TargetRubyVersion: 2.4
