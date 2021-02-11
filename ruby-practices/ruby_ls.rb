@@ -1,3 +1,5 @@
+!# /usr/bin/ruby
+
 require 'optparse'
 require 'etc'
 
@@ -17,7 +19,6 @@ end
 
 def without_a_opt
   @arr.select! { |list| !list.start_with?(".") }
-  # puts @arr
 end
 
 def with_r_opt
@@ -59,12 +60,12 @@ def with_l_output
 
   total = 0
   @arr.each do |f|
-    total += File.stat(f).blocks
+    total += File.stat("#{@base_dir}/#{f}").blocks
   end
 
   str = ''
   @arr.each do |f|
-    stat = File.stat(f)
+    stat = File.stat("#{@base_dir}/#{f}")
     # f = "#{f}/" if stat
     mode_arr = stat.mode.to_s(8).split(//)[-3..]
     mode = ''
