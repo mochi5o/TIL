@@ -58,7 +58,7 @@ def with_l_output
     '6' => 'rw-',
     '7' => 'rwx',
   }
-  types = {
+  types_table = {
         'file' => '-',
         'directory' => 'd',
         'characterSpecial' => 'c',
@@ -82,7 +82,7 @@ def with_l_output
     mode_arr.each do |n|
       mode += permit_table[n]
     end
-    type = types[stat.ftype]
+    type = types_table[stat.ftype]
     nlink = stat.nlink.to_s.rjust(3)
     owner = Etc.getpwuid(stat.uid).name
     gid   = stat.gid
