@@ -83,7 +83,7 @@ def with_l_output
     day   = mtime.day.to_s.rjust(2)
     hour  = mtime.hour.to_s.rjust(2, "0")
     min   = mtime.min.to_s.rjust(2, "0")
-    str += "#{type}#{mode} #{nlink} #{owner}  #{gid}  #{size} #{month}  #{day} #{hour}:#{min} #{f}\n"
+    str += "#{type}#{mode} #{nlink} #{owner}  #{gid}#{size} #{month} #{day} #{hour}:#{min} #{f}\n"
   end
 
   puts "total #{total}"
