@@ -7,3 +7,4 @@ AllCops:
     - ruby_cal
     - test/*
     - lib/fizzbuzz.rb
+  TargetRubyVersion: 2.4

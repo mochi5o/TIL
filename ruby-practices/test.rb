@@ -1,5 +1,6 @@
-require 'optparse'
+# frozen_string_literal: false
 
+require 'optparse'
 options = ARGV.getopts('ab')
 
 puts options
