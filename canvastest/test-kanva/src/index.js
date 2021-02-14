@@ -54,13 +54,15 @@ class App extends Component {
     // Layer is actual canvas element (so you may have several canvases in the stage)
     // And then we have canvas shapes inside the Layer
     return (
-      <Stage width={window.innerWidth} height={window.innerHeight}>
-        <Layer>
-          <Text text="Try click on rect" />
-          <RenderRect />
-          <RenderStar />
-        </Layer>
-      </Stage>
+      <div style={{"width": "60%"}}>
+        <Stage width={500} height={500} style={{"border-style": "solid"}}>
+          <Layer>
+            <Text text="Try click on rect" />
+            <RenderRect />
+            <RenderStar />
+          </Layer>
+        </Stage>
+      </div>
     );
   }
 }
