@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { Stage, Layer, Rect, Text } from 'react-konva';
+import { Stage, Layer, Rect, Star, Circle, Text } from 'react-konva';
 import Konva from 'konva';
 
-class ColoredRect extends React.Component {
+class RenderRect extends React.Component {
   state = {
     color: 'green'
   };
@@ -15,13 +15,34 @@ class ColoredRect extends React.Component {
   render() {
     return (
       <Rect
-        x={20}
-        y={20}
-        width={50}
-        height={50}
+        x={100}
+        y={100}
+        width={500}
+        height={500}
         fill={this.state.color}
         shadowBlur={5}
         onClick={this.handleClick}
+      />
+    );
+  }
+}
+
+class RenderStar extends React.Component {
+  render() {
+    return (
+      <Star
+        x={50}
+        y={50}
+        numPoints={3}
+        innerRadius={20}
+        outerRadius={40}
+        fill="#89b717"
+        opacity={0.8}
+        draggable
+        rotation={Math.random() * 180}
+        shadowColor="black"
+        shadowBlur={10}
+        shadowOpacity={0.6}
       />
     );
   }
@@ -36,7 +57,8 @@ class App extends Component {
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           <Text text="Try click on rect" />
-          <ColoredRect />
+          <RenderRect />
+          <RenderStar />
         </Layer>
       </Stage>
     );
