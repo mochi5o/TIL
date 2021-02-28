@@ -126,7 +126,7 @@ class RenderStar extends React.Component {
         fill="#89b717"
         opacity={0.8}
         draggable
-        rotation={Math.random() * 180}
+        // rotation={Math.random() * 180}
         shadowColor="black"
         shadowBlur={10}
         shadowOpacity={0.6}
@@ -164,15 +164,21 @@ const App = () => {
       selectShape(null);
     }
   };
+
+  function handleClick(e) {
+    e.preventDefault();
+    console.log('The link was clicked.');
+    return ( <RenderStar /> );
+  }
     // Stage is a div container
     // Layer is actual canvas element (so you may have several canvases in the stage)
     // And then we have canvas shapes inside the Layer
     return (
-      <div style={{"width": "60%"}}>
+      <div style={{"width": "600px"}}>
         <Stage
-          width={500}
-          height={500}
-          style={{"border-style": "solid"}}
+          width={600}
+          height={600}
+          style={{"borderStyle": "solid"}}
           onMouseDown={checkDeselect}
           onTouchStart={checkDeselect}
         >
@@ -199,9 +205,9 @@ const App = () => {
             <RenderStar />
             <RenderCircle />
           </Layer>
+          <Layer>
+          </Layer>
         </Stage>
-        <button>add Rect</button>
-        <button>add Circle</button>
       </div>
     );
 }
