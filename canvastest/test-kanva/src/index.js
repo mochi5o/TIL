@@ -1,188 +1,115 @@
-import React, { Component } from 'react';
+import React, { useState, useRef } from "react";
 import { render } from 'react-dom';
-import { Stage, Layer, Rect, Star, Circle, Text, Transformer } from 'react-konva';
-import Konva from 'konva';
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Button from "react-bootstrap/Button";
+import { Stage, Layer } from "react-konva";
+import Rectangle from "./Rectangle";
+import Circle from "./Circle";
 
-const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
-  const shapeRef = React.useRef();
-  const trRef = React.useRef();
-
-  React.useEffect(() => {
-    if (isSelected) {
-      // we need to attach transformer manually
-      trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
-    }
-  }, [isSelected]);
-
-  return (
-    <React.Fragment>
-      <Rect
-        onClick={onSelect}
-        onTap={onSelect}
-        ref={shapeRef}
-        {...shapeProps}
-        draggable
-        onDragEnd={(e) => {
-          onChange({
-            ...shapeProps,
-            x: e.target.x(),
-            y: e.target.y(),
-          });
-        }}
-        onTransformEnd={(e) => {
-          // transformer is changing scale of the node
-          // and NOT its width or height
-          // but in the store we have only width and height
-          // to match the data better we will reset scale on transform end
-          const node = shapeRef.current;
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-
-          // we will reset it back
-          node.scaleX(1);
-          node.scaleY(1);
-          onChange({
-            ...shapeProps,
-            x: node.x(),
-            y: node.y(),
-            // set minimal value
-            width: Math.max(5, node.width() * scaleX),
-            height: Math.max(node.height() * scaleY),
-          });
-        }}
-      />
-      {isSelected && (
-        <Transformer
-          ref={trRef}
-          boundBoxFunc={(oldBox, newBox) => {
-            // limit resize
-            if (newBox.width < 5 || newBox.height < 5) {
-              return oldBox;
-            }
-            return newBox;
-          }}
-        />
-      )}
-    </React.Fragment>
-  );
-};
-
-const initialRectangles = [
-  {
-    x: 10,
-    y: 10,
-    width: 100,
-    height: 100,
-    fill: 'red',
-    id: 'rect1',
-    stroke: 'black',
-    strokeWidth: 4,
-  },
-  {
-    x: 150,
-    y: 150,
-    width: 100,
-    height: 100,
-    fill: 'green',
-    id: 'rect2',
-  },
-];
-
-
-class RenderRect extends React.Component {
-  state = {
-    color: 'green'
-  };
-  handleClick = () => {
-    this.setState({
-      color: Konva.Util.getRandomColor()
-    });
-  };
-  render() {
-    return (
-      <Rect
-        x={400}
-        y={400}
-        width={50}
-        height={50}
-        fill={this.state.color}
-        shadowBlur={5}
-        onClick={this.handleClick}
-      />
-    );
-  }
-}
-
-class RenderStar extends React.Component {
-  render() {
-    return (
-      <Star
-        x={50}
-        y={50}
-        numPoints={3}
-        innerRadius={20}
-        outerRadius={40}
-        fill="#89b717"
-        opacity={0.8}
-        draggable
-        // rotation={Math.random() * 180}
-        shadowColor="black"
-        shadowBlur={10}
-        shadowOpacity={0.6}
-      />
-    );
-  }
-}
-
-class RenderCircle extends React.Component {
-  render() {
-    return (
-      <Circle
-        x={300}
-        y={50}
-        radius={50}
-        fill="blue"
-        opacity={0.8}
-        draggable
-        shadowColor="black"
-        shadowBlur={10}
-        shadowOpacity={0.6}
-      />
-    );
-  }
-
-}
 const App = () => {
-  const [rectangles, setRectangles] = React.useState(initialRectangles);
-  const [selectedId, selectShape] = React.useState(null);
-
-  const checkDeselect = (e) => {
-    // deselect when clicked on empty area
-    const clickedOnEmpty = e.target === e.target.getStage();
-    if (clickedOnEmpty) {
-      selectShape(null);
-    }
+  const [rectangles, setRectangles] = useState([]);
+  const [circles, setCircles] = useState([]);
+  const [selectedId, selectShape] = useState(null);
+  const [shapes, setShapes] = useState([]);
+  const [, updateState] = React.useState();
+  const stageEl = React.createRef();
+  const layerEl = React.createRef();
+  const getRandomInt = max => {
+    return Math.floor(Math.random() * Math.floor(max));
   };
 
-  function handleClick(e) {
-    e.preventDefault();
-    console.log('The link was clicked.');
-    return ( <RenderStar /> );
-  }
+  const addRectangle = () => {
+    const rect = {
+      x: getRandomInt(100),
+      y: getRandomInt(100),
+      width: 100,
+      height: 100,
+      fill: "red",
+      id: `rect${rectangles.length + 1}`,
+    };
+    const rects = rectangles.concat([rect]);
+    setRectangles(rects);
+    const shs = shapes.concat([`rect${rectangles.length + 1}`]);
+    setShapes(shs);
+  };
+  const addCircle = () => {
+    const circ = {
+      x: getRandomInt(100),
+      y: getRandomInt(100),
+      width: 100,
+      height: 100,
+      fill: "red",
+      id: `circ${circles.length + 1}`,
+    };
+    const circs = circles.concat([circ]);
+    setCircles(circs);
+    const shs = shapes.concat([`circ${circles.length + 1}`]);
+    setShapes(shs);
+  };
+  const forceUpdate = React.useCallback(() => updateState({}), []);
+
+  const undo = () => {
+    const lastId = shapes[shapes.length - 1];
+    let index = circles.findIndex(c => c.id == lastId);
+    if (index != -1) {
+      circles.splice(index, 1);
+      setCircles(circles);
+    }
+    index = rectangles.findIndex(r => r.id == lastId);
+    if (index != -1) {
+      rectangles.splice(index, 1);
+      setRectangles(rectangles);
+    }
+    shapes.pop();
+    setShapes(shapes);
+    forceUpdate();
+  };
+  document.addEventListener("keydown", ev => {
+    if (ev.code == "Delete") {
+      let index = circles.findIndex(c => c.id == selectedId);
+      if (index != -1) {
+        circles.splice(index, 1);
+        setCircles(circles);
+      }
+      index = rectangles.findIndex(r => r.id == selectedId);
+      if (index != -1) {
+        rectangles.splice(index, 1);
+        setRectangles(rectangles);
+      }
+      forceUpdate();
+    }
+  });
     // Stage is a div container
     // Layer is actual canvas element (so you may have several canvases in the stage)
     // And then we have canvas shapes inside the Layer
     return (
+    <>
+      <ButtonGroup>
+        <Button variant="secondary" onClick={addRectangle}>
+          Rectangle
+        </Button>
+        <Button variant="secondary" onClick={addCircle}>
+          Circle
+        </Button>
+        <Button variant="secondary" onClick={undo}>
+          Undo
+        </Button>
+      </ButtonGroup>
       <div style={{"width": "600px"}}>
         <Stage
           width={600}
           height={600}
           style={{"borderStyle": "solid"}}
-          onMouseDown={checkDeselect}
-          onTouchStart={checkDeselect}
+          ref={stageEl}
+          onMouseDown={e => {
+            // deselect when clicked on empty area
+            const clickedOnEmpty = e.target === e.target.getStage();
+            if (clickedOnEmpty) {
+              selectShape(null);
+            }
+          }}
         >
-          <Layer>
+          <Layer ref={layerEl}>
             {rectangles.map((rect, i) => {
               return (
                 <Rectangle
@@ -192,7 +119,7 @@ const App = () => {
                   onSelect={() => {
                     selectShape(rect.id);
                   }}
-                  onChange={(newAttrs) => {
+                  onChange={newAttrs => {
                     const rects = rectangles.slice();
                     rects[i] = newAttrs;
                     setRectangles(rects);
@@ -200,16 +127,28 @@ const App = () => {
                 />
               );
             })}
-            <Text text="Try click on rect" />
-            <RenderRect />
-            <RenderStar />
-            <RenderCircle />
-          </Layer>
-          <Layer>
+            {circles.map((circle, i) => {
+              return (
+                <Circle
+                  key={i}
+                  shapeProps={circle}
+                  isSelected={circle.id === selectedId}
+                  onSelect={() => {
+                    selectShape(circle.id);
+                  }}
+                  onChange={newAttrs => {
+                    const circs = circles.slice();
+                    circs[i] = newAttrs;
+                    setCircles(circs);
+                  }}
+                />
+              );
+            })}
           </Layer>
         </Stage>
       </div>
-    );
+    </>
+  );
 }
 
 render(<App />, document.getElementById('root'));
