@@ -22,8 +22,8 @@ const App = () => {
     const rect = {
       x: getRandomInt(100),
       y: getRandomInt(100),
-      width: 100,
-      height: 100,
+      width: 200,
+      height: 50,
       fill: "red",
       id: `rect${rectangles.length + 1}`,
     };
@@ -34,11 +34,11 @@ const App = () => {
   };
   const addCircle = () => {
     const circ = {
-      x: getRandomInt(100),
-      y: getRandomInt(100),
-      width: 100,
-      height: 100,
-      fill: "red",
+      x: getRandomInt(200),
+      y: getRandomInt(200),
+      width: 50,
+      height: 50,
+      fill: "blue",
       id: `circ${circles.length + 1}`,
     };
     const circs = circles.concat([circ]);
@@ -48,24 +48,25 @@ const App = () => {
   };
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
-  const undo = () => {
-    const lastId = shapes[shapes.length - 1];
-    let index = circles.findIndex(c => c.id == lastId);
-    if (index != -1) {
-      circles.splice(index, 1);
-      setCircles(circles);
-    }
-    index = rectangles.findIndex(r => r.id == lastId);
-    if (index != -1) {
-      rectangles.splice(index, 1);
-      setRectangles(rectangles);
-    }
-    shapes.pop();
-    setShapes(shapes);
-    forceUpdate();
-  };
+  // const undo = () => {
+  //   const lastId = shapes[shapes.length - 1];
+  //   let index = circles.findIndex(c => c.id == lastId);
+  //   if (index != -1) {
+  //     circles.splice(index, 1);
+  //     setCircles(circles);
+  //   }
+  //   index = rectangles.findIndex(r => r.id == lastId);
+  //   if (index != -1) {
+  //     rectangles.splice(index, 1);
+  //     setRectangles(rectangles);
+  //   }
+  //   shapes.pop();
+  //   setShapes(shapes);
+  //   forceUpdate();
+  // };
   document.addEventListener("keydown", ev => {
-    if (ev.code == "Delete") {
+    console.log(ev.code)
+    if (ev.code == "Delete" || "Backspace") {
       let index = circles.findIndex(c => c.id == selectedId);
       if (index != -1) {
         circles.splice(index, 1);
@@ -86,14 +87,14 @@ const App = () => {
     <>
       <ButtonGroup>
         <Button variant="secondary" onClick={addRectangle}>
-          Rectangle
+          四角形
         </Button>
         <Button variant="secondary" onClick={addCircle}>
-          Circle
+          丸
         </Button>
-        <Button variant="secondary" onClick={undo}>
+        {/* <Button variant="secondary" onClick={undo}>
           Undo
-        </Button>
+        </Button> */}
       </ButtonGroup>
       <div style={{"width": "600px"}}>
         <Stage
