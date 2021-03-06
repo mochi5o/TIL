@@ -3,6 +3,7 @@ import { Rect, Transformer } from "react-konva";
 const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
   const shapeRef = React.useRef();
   const trRef = React.useRef();
+  const blockSize = 30;
   React.useEffect(() => {
     if (isSelected) {
       // we need to attach transformer manually
@@ -20,8 +21,8 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
         onDragEnd={e => {
           onChange({
             ...shapeProps,
-            x: e.target.x(),
-            y: e.target.y(),
+            x: Math.round(e.target.x() / blockSize) * blockSize,
+            y: Math.round(e.target.y() / blockSize) * blockSize,
           });
         }}
         onTransformEnd={e => {

@@ -65,7 +65,6 @@ const App = () => {
   //   forceUpdate();
   // };
   document.addEventListener("keydown", ev => {
-    console.log(ev.code)
     if (ev.code == "Delete" || "Backspace") {
       let index = circles.findIndex(c => c.id == selectedId);
       if (index != -1) {
