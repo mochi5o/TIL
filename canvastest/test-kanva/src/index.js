@@ -18,12 +18,26 @@ const App = () => {
     return Math.floor(Math.random() * Math.floor(max));
   };
 
-  const addRectangle = () => {
+  const addHorizontalRectangle = () => {
     const rect = {
       x: getRandomInt(100),
       y: getRandomInt(100),
       width: 200,
       height: 50,
+      fill: "red",
+      id: `rect${rectangles.length + 1}`,
+    };
+    const rects = rectangles.concat([rect]);
+    setRectangles(rects);
+    const shs = shapes.concat([`rect${rectangles.length + 1}`]);
+    setShapes(shs);
+  };
+  const addVerticalRectangle = () => {
+    const rect = {
+      x: getRandomInt(100),
+      y: getRandomInt(100),
+      width: 50,
+      height: 200,
       fill: "red",
       id: `rect${rectangles.length + 1}`,
     };
@@ -48,22 +62,22 @@ const App = () => {
   };
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
-  // const undo = () => {
-  //   const lastId = shapes[shapes.length - 1];
-  //   let index = circles.findIndex(c => c.id == lastId);
-  //   if (index != -1) {
-  //     circles.splice(index, 1);
-  //     setCircles(circles);
-  //   }
-  //   index = rectangles.findIndex(r => r.id == lastId);
-  //   if (index != -1) {
-  //     rectangles.splice(index, 1);
-  //     setRectangles(rectangles);
-  //   }
-  //   shapes.pop();
-  //   setShapes(shapes);
-  //   forceUpdate();
-  // };
+  const undo = () => {
+    const lastId = shapes[shapes.length - 1];
+    let index = circles.findIndex(c => c.id == lastId);
+    if (index != -1) {
+      circles.splice(index, 1);
+      setCircles(circles);
+    }
+    index = rectangles.findIndex(r => r.id == lastId);
+    if (index != -1) {
+      rectangles.splice(index, 1);
+      setRectangles(rectangles);
+    }
+    shapes.pop();
+    setShapes(shapes);
+    forceUpdate();
+  };
   document.addEventListener("keydown", ev => {
     if (ev.code == "Delete" || "Backspace") {
       let index = circles.findIndex(c => c.id == selectedId);
@@ -85,15 +99,18 @@ const App = () => {
     return (
     <>
       <ButtonGroup>
-        <Button variant="secondary" onClick={addRectangle}>
-          四角形
+        <Button variant="secondary" onClick={addHorizontalRectangle}>
+          四角形よこ
+        </Button>
+        <Button variant="secondary" onClick={addVerticalRectangle}>
+          四角形たて
         </Button>
         <Button variant="secondary" onClick={addCircle}>
           丸
         </Button>
-        {/* <Button variant="secondary" onClick={undo}>
+        <Button variant="secondary" onClick={undo}>
           Undo
-        </Button> */}
+        </Button>
       </ButtonGroup>
       <div style={{"width": "600px"}}>
         <Stage
